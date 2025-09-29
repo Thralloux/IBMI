@@ -1,0 +1,24 @@
+Préparation: 
+Insérer fichier python dans son dossier ifs (pièce jointe python). 
+Lancer la commande QSH 
+
+Se positionner dans l’ifs 
+PATH=/QOpenSys/pkgs/bin:$PATH 
+
+Vérifier si les éléments son installer et quels version 
+python3 --version 
+pip3 –version 
+
+Créer un environnement personnelle 
+python3 -m venv my_env 
+
+Activer son environnement personnel 
+source my_env/bin/activate 
+
+Installer beautifulsoup 
+pip3 install requests beautifulsoup4 
+
+Créée les tables 
+CREATE TABLE BOUVIER.METEO (METEO_DATA CHAR(150)); 
+CREATE TABLE BOUVIER.Actu (ACTU_DATA CHAR(150)); 
+CREATE TABLE BOUVIER.sport (ACTU_DATA CHAR(150)); 
