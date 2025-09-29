@@ -1,0 +1,81 @@
+     A* *===============================================================
+     A* *                      SOUS FICHIER 1
+     A* *===============================================================
+     A                                      INDARA
+     A          R SFL01                     SFL
+     A            ECOL1        150A  O  6  3
+     A* *====================  CONTROLE  =====================================
+     A          R CTL01                     SFLCTL(SFL01)
+     A                                      CF03(03)
+     A                                      CF10(10)
+     A                                      CF12(12)
+     A                                      OVERLAY
+     A  32                                  SFLDSP
+     A N31                                  SFLCLR
+     A  31                                  SFLDSPCTL
+     A  90                                  SFLEND(*MORE)
+     A                                      SFLSIZ(0025)
+     A                                      SFLPAG(0008)
+     A            RANG           4S 0H      SFLRCDNBR
+     A* *====================  USER & DATE  ============================
+     A                                  1  3SYSNAME
+     A                                  2  3USER
+     A                                  2 71TIME
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A* *====================  TITRE  ==================================
+     A            ECHOIX        35A  O  2 27COLOR(WHT)
+     A            ETITRE2       35A  O  5  3COLOR(WHT)
+     A* *====================  BOTTOM  =================================
+     A          R BAS01
+     A                                 24  7'F10=Accès au site'
+      A                                      COLOR(BLU)
+     A                                 24 26'F12=Retour'
+     A                                      COLOR(BLU)
+     A* *===============================================================
+     A          R FORMAT2
+     A                                      CF03(03)
+     A                                      CF05(05)
+     A                                      OVERLAY
+     A* *====================  USER & DATE  ============================
+     A                                  1  3SYSNAME
+     A                                  2  3USER
+     A                                  2 71TIME
+     A                                  1 71DATE
+     A                                      EDTCDE(Y)
+     A* *====================  TITRE  ==================================
+     A            ETITRE1       35A  O  2 28COLOR(WHT)
+     A* *====================  MAIN  ===================================
+     A                                  6  2'Indiquez vos options, puis appuyez-
+     A                                       sur ENTREE.'
+     A                                      COLOR(BLU)
+     A                                  7  3'1=Détail'
+     A                                      COLOR(BLU)
+     A                                  9  6'Température'
+     A                                      COLOR(WHT)
+     A            EMETEO         1A  B  9  3COLOR(WHT)
+     A                                 11  6'Actualité'
+     A                                      COLOR(WHT)
+     A            EACTU          1A  B 11  3COLOR(WHT)
+     A                                 13  6'Sport'
+     A                                      COLOR(WHT)
+     A            ESPORT         1A  B 13  3COLOR(WHT)
+     A* *====================  BOTTOM  =================================
+     A                                 24 17'F5=Rafraichir'
+     A                                      COLOR(BLU)
+     A* *====================  BOTTOM  =================================
+     A                                 24  7'F3=Exit'
+     A                                      COLOR(BLU)
+     A          R MSGSFL                    SFL
+     A                                      SFLMSGRCD(24)
+     A            MSGKEY                    SFLMSGKEY
+     A            $PGM                      SFLPGMQ(10)
+     A          R MSGCTL                    SFLCTL(MSGSFL)
+     A                                      HELP
+     A                                      OVERLAY
+     A                                      SFLDSP
+     A                                      SFLDSPCTL
+     A                                      SFLINZ
+     A                                      SFLSIZ(0002)
+     A                                      SFLPAG(0001)
+     A            $PGM                      SFLPGMQ(10)

@@ -1,0 +1,11 @@
+
+        DCL-DS INDICATEUR ;
+          EXIT       ind pos(03);
+          RAFRAICHIR ind pos(05);
+          INFO       ind pos(10);
+          RETOUR     ind pos(12);
+          COLOR      ind pos(21);
+          SFLCLEAR   ind pos(31);
+          SFLDSP     ind pos(32);
+          SFLEND     ind pos(90);
+        END-DS;
