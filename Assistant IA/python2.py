@@ -37,4 +37,4 @@ def llm(query):
     print(f"CSV créé ici : {csv_path}")                                                                                                               
                                                                                                                                                       
 # Test                                                                                                                                                
-llm('QUI EST LA KARMINE CORP EN 200 CARACTERE')                                                                                                       
+llm('Question ici')                                                                                                       

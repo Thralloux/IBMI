@@ -38,7 +38,7 @@ python3 -m venv my_env
 source my_env/bin/activate
 pip install requests beautifulsoup4
 
-3. Création des tables AS400 pour stocker les données scrappées :
+3. **Création des tables AS400 pour stocker les données scrappées** :
 ```sql
 CREATE TABLE METEO (METEO_DATA CHAR(150));
 CREATE TABLE BOUVIER.Actu (ACTU_DATA CHAR(150));

@@ -1,5 +1,5 @@
 **FREE
-CTL-OPT COPYRIGHT('(C) ARMONIE 2024.')
+CTL-OPT COPYRIGHT('(C) NBOUVIER 2025')
 OPTION(*SRCSTMT) DFTACTGRP(*NO) OPTIMIZE(*none)
 ACTGRP(*CALLER) DATFMT(*eur) TIMFMT(*ISO) ALLOC(*STGMDL)
 STGMDL(*INHERIT) THREAD(*SERIALIZE);
@@ -22,6 +22,7 @@ DCL-S FLD001          char(150);
 //**********************************************************************//
 Dcl-Pr llm extpgm;
 End-pr;
+
 //**********************************************************************//
 // Traitement pricipale                                                 //
 //**********************************************************************//
@@ -37,9 +38,11 @@ Dow Not *In03;
   Exec Sql
  Select ANSWER1 into :reponse
  From ANSWER ;
+
 // Affichage
   Answerd =  reponse;
   Exfmt RECORD;
+
 //Si question;
   If ASKD <> '';
    requet ='llm(''' + %trim(ASKD) +''')';
@@ -79,6 +82,7 @@ Dow Not *In03;
 // Fermeture
     exec sql CLOSE C1;
     CLOSE ANSWER;
+
 //Relance api
     callp llm();
   EndIf;
