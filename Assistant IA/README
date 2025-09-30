@@ -1,0 +1,23 @@
+# AS400 AI Assistant
+![Python](https://img.shields.io/badge/Python-3.9.21-blue)
+![AS400](https://img.shields.io/badge/AS400-V7R3-orange)
+
+## Description
+Ce projet permet d'utiliser un assistant IA via l'API Hugging Face, fonctionnant sur un environnement AS400.  
+Il simule un type de ChatGPT adapté à l’AS400.  
+
+**Principe :**
+- Les questions sont stockées et modifiées via une table AS400.
+- Le script Python est reconstruit dans l’IFS (Integrated File System) pour être exécuté sur l’AS400.
+
+## Prérequis
+- Python 3.9.21  
+- AS400 en version V7R3  
+
+## Installation et utilisation
+1. Copier le script Python dans la table AS400 :
+
+```sql
+INSERT INTO nbouvier.ask (FLD001)
+SELECT LINE
+FROM TABLE(QSYS2.IFS_READ('/home/NBOUVIER/python2.py'));
