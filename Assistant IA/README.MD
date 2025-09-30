@@ -14,18 +14,20 @@ Il simule un type de ChatGPT adapté à l’AS400.
 ---
 
 ## Installation et utilisation
-1. Copier le script Python dans la table AS400 :
+1. **Insérer le fichier Python** dans son dossier IFS.  
+
+2. Copier le script Python dans la table AS400 :
 ```sql
 INSERT INTO nbouvier.ask (FLD001)
 SELECT LINE
 FROM TABLE(QSYS2.IFS_READ('/home/NBOUVIER/python2.py'));
+```
 
-1. **Insérer le fichier Python** dans son dossier IFS.  
-
-2. **Se connecter via QSH** et effectuer les commandes suivantes pour créer un environnement virtuel et installer les bibliothèques nécessaires :  
+3. **Se connecter via QSH** et effectuer les commandes suivantes pour créer un environnement virtuel et installer les bibliothèques nécessaires :  
 ```sh
 PATH=/QOpenSys/pkgs/bin:$PATH
 python3 --version
 pip3 --version
 python3 -m venv my_env
 source my_env/bin/activate
+```
