@@ -1,0 +1,16 @@
+             PGM
+
+    /* Définir le chemin de l'environnement QOpenSys */
+             QSH        CMD('PATH=/QOpenSys/pkgs/bin:$PATH')
+             QSH        CMD('source /home/NBOUVIER/my_env/bin/activate')
+             QSH        CMD('export HF_TOKEN="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"')
+
+    /* Exécuter le script Python en utilisant l'environnement virtuel */
+             QSH        CMD('export HF_TOKEN="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"; + 
+                            /home/NBOUVIER/my_env/bin/python3 /home/NBOUVIER/python2.py > /dev/null +
+                          2>&1')
+
+             CPYFRMIMPF FROMSTMF('/home/NBOUVIER/response.csv') TOFILE(NBOUVIER/ANSWER) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+
+            ENDPGM
