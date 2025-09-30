@@ -7,8 +7,10 @@ Ce projet permet d'utiliser un assistant IA via l'API Hugging Face, fonctionnant
 Il simule un type de ChatGPT adapté à l’AS400.  
 
 **Principe :**
-- Les questions sont stockées et modifiées via une table AS400.
-- Le script Python est reconstruit dans l’IFS (Integrated File System) pour être exécuté sur l’AS400.
+- La **question et le script** sont stockés dans une table AS400 et peuvent être modifiés. 
+- Toute modification permet de **reconstruire automatiquement le script Python** dans l’IFS (Integrated File System).  
+- La **réponse** est générée par le script Python, qui utilise l'API Hugging Face et enregistre les résultats dans un fichier CSV.
+  
 
 ## Prérequis
 - Python 3.9.21  
