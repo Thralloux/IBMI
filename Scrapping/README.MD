@@ -17,14 +17,6 @@ Il utilise Python avec les bibliothèques `requests` et `BeautifulSoup` pour eff
 
 ---
 
-## Prérequis
-
-- Python 3.x sur l’AS400  
-- Bibliothèques Python : `requests`, `beautifulsoup4`  
-- Accès à l’IFS de l’AS400  
-
----
-
 ## Installation et utilisation
 
 1. **Insérer le fichier Python** dans son dossier IFS.  
