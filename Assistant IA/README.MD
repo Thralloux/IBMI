@@ -14,7 +14,7 @@ Il simule un type de ChatGPT adapté à l’AS400.
 ## Prérequis
 - Python 3.9.21  
 - AS400 en version V7R3  
--
+
 ## Installation et utilisation
 1. Copier le script Python dans la table AS400 :
 ```sql
