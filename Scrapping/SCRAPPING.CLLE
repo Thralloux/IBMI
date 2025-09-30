@@ -1,8 +1,5 @@
 PGM
 
-    /* Définir le chemin de l'environnement QOpenSys */
-    QSH CMD('PATH=/QOpenSys/pkgs/bin:$PATH')
-
     /* Exécuter le script Python en utilisant l'environnement virtuel */
     QSH CMD('/home/NICOLAS/my_env/bin/python3 /home/NICOLAS/python.py > /dev/null 2>&1')
 
