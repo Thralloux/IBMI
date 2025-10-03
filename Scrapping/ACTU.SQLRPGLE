@@ -1,5 +1,5 @@
 **FREE
-CTL-OPT COPYRIGHT('(C) NBOUVIER 2025')
+CTL-OPT COPYRIGHT('(C) NBOUVIER')
 OPTION(*SRCSTMT) DFTACTGRP(*NO) OPTIMIZE(*none)
 ACTGRP(*CALLER) DATFMT(*eur) TIMFMT(*ISO) ALLOC(*STGMDL)
 STGMDL(*INHERIT) THREAD(*SERIALIZE);
@@ -9,8 +9,8 @@ STGMDL(*INHERIT) THREAD(*SERIALIZE);
 // Déclaration des fichiers                                             //
 //**********************************************************************//
 DCL-F actuFM WORKSTN SFILE(SFL01:RANG) INDDS(INDICATEUR);
-/include QDDSLESRC,INDICATEUR
-/include QDDSLESRC,API
+/include NBOUVIER/QDDSLESRC,INDICATEUR
+/include NBOUVIER/QDDSLESRC,API
 
 //**********************************************************************//
 // Déclaration programme externe                                        //
@@ -49,15 +49,15 @@ EXEC SQL
   DATFMT = *eur;
 
 Dow Not EXIT;
-// initialisation, Date du jour, msg erreur, affichage, nettoyage
+// initialisation, Date du jour
  init();
  datej();
- WRITE MSGCTL;
+ // Affichage ecran
  Exfmt format2;
  clean();
 //Rafraichir donnée
   if RAFRAICHIR = *on;
-    callp RAFRAICHIR_data();
+    callp SCRAPPING();
     iter;
   endif;
 // Option et gestion erreur
@@ -80,6 +80,7 @@ Dow Not EXIT;
         ETITRE2 = 'L equipe';
         cmd='STRPCCMD PCCMD(''start https://www.lequipe.fr/'') PAUSE(*NO) ';
       OTHER;
+        //pas de sous fichier donc inutile
         msgId  = 'UTI0001';
         ERROPT();
        iter;
@@ -90,7 +91,7 @@ Dow Not EXIT;
    iter;
   ENDMON;
 
-// Exécuter uniquement si une requête SQL est définie
+// Exécuter uniquement si une requéte SQL est définie
   If %Len(SqlStm) > 0;
     cmdLen = %len(cmd);
     ClearSF();
@@ -121,7 +122,7 @@ END-PROC ;
    exec sql
     select LAST_USED_TIMESTAMP
     into :DateRecup
-    from table(QSYS2.IFS_OBJECT_STATISTICS('/home/NICOLAS/infoclimat_data.csv'));
+    from table(QSYS2.IFS_OBJECT_STATISTICS('/home/NBOUVIER/infoclimat_data.csv'));
   gstErrSQL();
 // --- Conversion  ---
   DateModif = %date(DateRecup);
@@ -188,7 +189,7 @@ DCL-PROC DspSF;
     RANG = 1;
     Write bas01;
     Exfmt ctl01;
-    //Accès au site
+    //Accée au site
     if INFO = *on;
       callp QCMDEXC(cmd: cmdLen);
     endif;
@@ -200,8 +201,11 @@ END-PROC ;
 // Procedure message erreur                                             //
 //**********************************************************************//
 DCL-PROC ERROPT;
+  //pas de sous fichier donc inutile
   callp QMHSNDPM( msgId : 'MESSAGE   *LIBL     ' : msgData :
   msgDataLen :  '*DIAG': $PGM  : 0 : msgKey : errorCode );
+
+   WRITE MSGCTL;
 END-PROC ;
 
 //**********************************************************************//
@@ -230,43 +234,3 @@ DCL-PROC gstErrSQL;
   endif;
 END-PROC ;
 
-//**********************************************************************//
-// Procédure Rafraichir data                                            //
-//**********************************************************************//
-DCL-PROC RAFRAICHIR_data;
-
-  // Mise à jour du PATH pour QOpenSys
-  cmd = 'QSH CMD(''PATH=/QOpenSys/pkgs/bin:$PATH'')';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-  // Exécution du script Python
-  cmd = 'QSH CMD(''/home/NICOLAS/my_env/bin/python3 /home/NICOLAS/python.py > /dev/null 2>&1'')';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-  // Copie des fichiers CSV vers les PF
-  cmd = 'CPYFRMIMPF FROMSTMF(''/home/NICOLAS/infoclimat_data.csv'') ' +
-        'TOFILE(BOUVIER/METEO) MBROPT(*REPLACE) RCDDLM(*CRLF) ' +
-        'STRDLM(*NONE) FLDDLM(*TAB)';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-  cmd = 'CPYFRMIMPF FROMSTMF(''/home/NICOLAS/lemonde_data.csv'') ' +
-        'TOFILE(BOUVIER/ACTU) MBROPT(*REPLACE) RCDDLM(*CRLF) ' +
-        'STRDLM(*NONE) FLDDLM(*TAB)';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-  cmd = 'CPYFRMIMPF FROMSTMF(''/home/NICOLAS/lequipe_data.csv'') ' +
-        'TOFILE(BOUVIER/SPORT) MBROPT(*REPLACE) RCDDLM(*CRLF) ' +
-        'STRDLM(*NONE) FLDDLM(*TAB)';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-  // Appel STRPCO en dernier (facultatif si déjà lancé)
-  cmd = 'STRPCO';
-  cmdLen = %len(%trim(cmd));
-  callp(e) QCMDEXC(cmd: cmdLen);
-
-END-PROC;
