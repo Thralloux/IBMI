@@ -34,6 +34,6 @@ pip install requests beautifulsoup4
 3. **Création des tables AS400 pour stocker les données scrappées** :
 ```sql
 CREATE TABLE METEO (METEO_DATA CHAR(150));
-CREATE TABLE BOUVIER.Actu (ACTU_DATA CHAR(150));
-CREATE TABLE BOUVIER.Sport (ACTU_DATA CHAR(150));
+CREATE TABLE Actu (ACTU_DATA CHAR(150));
+CREATE TABLE Sport (ACTU_DATA CHAR(150));
 ```
