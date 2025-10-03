@@ -4,7 +4,7 @@
 
 ## Description
 Ce projet permet d'utiliser un assistant IA via l'API Hugging Face, fonctionnant sur un environnement AS400.  
-Il simule un type de ChatGPT adapté à l’AS400.  
+Il simule un type de ChatGPT adapté à l’AS400 et permet de réaliser de l'analyse de donnée sur une table spécifique.  
 
 **Principe :**
 - La **question et le script** sont stockés dans une table AS400 et peuvent être modifiés. 
