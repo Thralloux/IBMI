@@ -1,40 +1,23 @@
+import os, csv, requests
 
-import os                                                                                                                                             
-import csv                                                                                                                                            
-import requests                                                                                                                                       
-                                                                                                                                                      
-API_URL = "https://router.huggingface.co/v1/chat/completions"                                                                                         
-                                                                                                                                                      
-# Utilise la variable d'environnement HF_TOKEN                                                                                                        
-headers = {                                                                                                                                           
-    "Authorization": f"Bearer {os.environ['HF_TOKEN']}",                                                                                              
-    "Content-Type": "application/json"                                                                                                                
-}                                                                                                                                                     
-                                                                                                                                                      
-def llm(query):                                                                                                                                       
-    payload = {                                                                                                                                       
-        "messages": [{"role": "user", "content": query}],                                                                                             
-        "model": "meta-llama/Llama-3.1-70B-Instruct:fireworks-ai"                                                                                     
-    }                                                                                                                                                 
-                                                                                                                                                      
-    try:                                                                                                                                              
-        response = requests.post(API_URL, headers=headers, json=payload)                                                                              
-        response.raise_for_status()                                                                                                                   
-        data = response.json()                                                                                                                        
-        response_text = data["choices"][0]["message"]["content"].strip().replace("\n", " ").replace("\r", " ")                                        
-    except requests.exceptions.HTTPError as e:                                                                                                        
-        response_text = f"Erreur HTTP: {e} - {response.text}"                                                                                         
-    except Exception as e:                                                                                                                            
-        response_text = f"Erreur lors de la requête ou parsing JSON: {e}"                                                                             
-                                                                                                                                                      
-    # Écriture dans CSV                                                                                                                               
-    csv_path = os.path.join(os.getcwd(), "response.csv")                                                                                              
-    with open(csv_path, mode='w', newline='', encoding='utf-8-sig') as file:                                                                          
-        writer = csv.writer(file, delimiter=';')                                                                                                      
-        writer.writerow([response_text])                                                                                                              
-                                                                                                                                                      
-    print("Réponse:", response_text)                                                                                                                  
-    print(f"CSV créé ici : {csv_path}")                                                                                                               
-                                                                                                                                                      
-# Test                                                                                                                                                
-llm('Question ici')                                                                                                       
+API_URL = "https://router.huggingface.co/v1/chat/completions"
+HEADERS = {"Authorization": f"Bearer {os.environ['HF_TOKEN']}", "Content-Type": "application/json"}
+MODEL = "meta-llama/Llama-3.3-70B-Instruct:cerebras"
+
+def llm(query):
+    try:
+        r = requests.post(API_URL, headers=HEADERS, json={"messages":[{"role":"user","content":query}], "model":MODEL})
+        r.raise_for_status()
+        text = r.json()["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        text = f"Erreur: {e}"
+
+    with open("response.csv", "w", newline='', encoding="utf-8-sig") as f:
+        csv.writer(f, delimiter=";").writerow([text])
+    return text
+
+# Lecture CSV externe (IFS)
+with open("/home/NBOUVIER/table.csv", newline='', encoding="utf-8-sig") as f:
+    table_data = "\n".join(" | ".join(row) for row in csv.reader(f, delimiter="\t"))
+
+llm(f"{table_data} test")

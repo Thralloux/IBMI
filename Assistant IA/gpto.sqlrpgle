@@ -1,5 +1,5 @@
 **FREE
-CTL-OPT COPYRIGHT('(C) NBOUVIER 2025')
+CTL-OPT COPYRIGHT('(C) NBOUVIER')
 OPTION(*SRCSTMT) DFTACTGRP(*NO) OPTIMIZE(*none)
 ACTGRP(*CALLER) DATFMT(*eur) TIMFMT(*ISO) ALLOC(*STGMDL)
 STGMDL(*INHERIT) THREAD(*SERIALIZE);
@@ -10,6 +10,7 @@ STGMDL(*INHERIT) THREAD(*SERIALIZE);
 DCL-F GPTOFM WORKSTN ;       //Ecran principal
 DCL-F ASK;                   //Table Question
 DCL-F ANSWER;                //Table Réponse
+
 //**********************************************************************//
 // Déclaration des variables                                            //
 //**********************************************************************//
@@ -18,7 +19,7 @@ DCL-S requet          varchar(100);
 DCL-S FLD001          char(150);
 
 //**********************************************************************//
-// Déclaration programme externe                                          //
+// Déclaration programme externe                                        //
 //**********************************************************************//
 Dcl-Pr llm extpgm;
 End-pr;
@@ -30,60 +31,64 @@ EXEC SQL
   SET option commit = *none , ALWCPYDTA = *OPTIMIZE, CLOSQLCSR = *ENDMOD,
   DATFMT = *eur;
 
-exec sql
-delete from ANSWER ;
+EXEC SQL
+DELETE FROM ANSWER ;
 
 Dow Not *In03;
-// Récupération
-  Exec Sql
- Select ANSWER1 into :reponse
- From ANSWER ;
 
-// Affichage
+  // Récupération
+  Exec Sql
+  Select ANSWER1 into :reponse
+  From ANSWER ;
+
+  // Affichage
   Answerd =  reponse;
   Exfmt RECORD;
 
-//Si question;
+  //Si question;
   If ASKD <> '';
-   requet ='llm(''' + %trim(ASKD) +''')';
-   clear ASKFMT;
+    requet ='llm(f"{table_data} '+ %trim(ASKD) +'")';
+    clear ASKFMT;
 
-// Modifie derniere enreg de la table pour changer la question de l'api
-    exec sql
+    // Modifie derniere enreg de la table pour changer la question de l'api
+    EXEC SQL
     UPDATE ask
     SET FLD001 = :requet
     WHERE RRN(ask) = (
     SELECT MAX(RRN(ask)) FROM ask);
 
-//Nettoyer le fichier IFS
-   exec sql
-   CALL QSYS2.IFS_WRITE_UTF8(
+    //Nettoyer le fichier IFS
+    EXEC SQL
+    CALL QSYS2.IFS_WRITE_UTF8(
          PATH_NAME => '/home/NBOUVIER/python2.py',
          OVERWRITE => 'REPLACE',
          LINE => '');
 
-// Écriture dans le fichier IFS
-   exec sql
-   DECLARE C1 CURSOR FOR
-   SELECT FLD001 FROM ask;
-    exec sql OPEN C1;
+    // Écriture dans le fichier IFS
+    EXEC SQL
+    DECLARE C1 CURSOR FOR
+    SELECT FLD001 FROM ask;
+    EXEC SQL OPEN C1;
+
     dow '1';
-      exec sql
+      EXEC SQL
       FETCH C1 INTO :FLD001;
+      //Sortie si erreur
       if SQLCODE <> 0;
         leave;
       endif;
-      exec sql
+      //Ecriture fichier IFS
+      EXEC SQL
       CALL QSYS2.IFS_WRITE_UTF8(
          PATH_NAME => '/home/NBOUVIER/python2.py',
          LINE => :FLD001 );
     enddo;
 
-// Fermeture
-    exec sql CLOSE C1;
+    // Fermeture
+    EXEC SQL CLOSE C1;
     CLOSE ANSWER;
 
-//Relance api
+    //Relance api
     callp llm();
   EndIf;
 EndDo;
