@@ -41,6 +41,8 @@ CREATE TABLE Sport (ACTU_DATA CHAR(150));
 Compiler avec RPGPPOPT (*LVL2)
 voir https://www.linkedin.com/pulse/%C3%A9vitez-les-erreurs-sqlrpgle-dues-aux-directives-include-aktepe-8ughf/
 
+---
+
 ## Visuelle
 
 <img width="1195" height="807" alt="image" src="https://github.com/user-attachments/assets/912ff200-b565-4c80-b4f2-febe60ac6afc" />
