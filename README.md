@@ -11,6 +11,7 @@ Ce dépôt contient des projets personnels liés à l'environnement **AS400**, i
 ## Contenu
 
 - **RPG Free** : Programmes expérimentaux sur AS400.  
-- **Python** : Scripts pour automatisation, scrapping, et utilisation d'API dans l'environnement AS400.  
+- **Python**   : Scripts pour automatisation, scrapping, et utilisation d'API dans l'environnement AS400.  
+- **Shell**    : Scripts pour récupération de fichierI dans l'environnement AS400. 
 
 Ces projets servent principalement à **tester, apprendre et expérimenter** différentes fonctionnalités de l'AS400.
