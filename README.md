@@ -2,6 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.9.21-blue)
 ![AS400](https://img.shields.io/badge/AS400-V7R3-orange)
+![Shell](https://img.shields.io/badge/Shell-PASE%20%2F%20QOpenSys-lightgrey)
 
 Ce dépôt contient des projets personnels liés à l'environnement **AS400**, incluant du **RPG Free** et du **Python**.  
 
