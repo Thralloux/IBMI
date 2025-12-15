@@ -31,3 +31,10 @@ pip3 --version
 python3 -m venv my_env
 source my_env/bin/activate
 ```
+---
+
+## Visuelle
+
+<img width="1230" height="888" alt="Image" src="https://github.com/user-attachments/assets/ff6f3e09-c085-4360-8542-43b08b67c325" />
+<img width="1262" height="833" alt="Image" src="https://github.com/user-attachments/assets/07e21e5e-98bf-42ed-9e1d-a488a5e1e2db" />
+<img width="1280" height="928" alt="Image" src="https://github.com/user-attachments/assets/236077ba-5a46-40e8-ac89-b1feeb4d499a" />
