@@ -22,7 +22,9 @@ end-pr;
 // Déclaration DS                                                       //
 //**********************************************************************//
 DCL-DS FETCH1;
-  ECOL1 char(150);
+  ECOL char(150);
+  ECOL1 char(60);
+  ECOL2 char(60);
 END-DS;
 
 //Ecran message erreur
@@ -40,7 +42,8 @@ DCL-s SflPag    zoned(10);
 dcl-s DateRecup timestamp;
 dcl-s DateModif date;
 dcl-s DateUtil  char(10);
-
+DCL-S posSpace INT(5) INZ(0);
+ DCL-S pos INT(5);
 //**********************************************************************//
 // Traitement pricipale                                                 //
 //**********************************************************************//
@@ -176,8 +179,16 @@ DCL-PROC BuildSF;
       leave;
     ENDIF;
   // --------------------------------------//
-    rang += 1;
-    write Sfl01;
+    FOR pos = 60 DOWNTO 1;
+      IF %subst(ECOL:pos:1) = ' ';
+        posSpace = pos;
+        LEAVE;
+      ENDIF;
+    ENDFOR;
+    ECOL1 = %subst(ECOL:1:posSpace);
+    ECOL2 = %triml(%subst(ECOL:posSpace+1));   
+    rang += 1;      
+    write SFL01;
   ENDFOR;
 
 END-PROC;
