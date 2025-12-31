@@ -1,4 +1,8 @@
      A* *===============================================================
+     A* *                      GPTOFM - DSPF
+     A* *===============================================================
+     A                                      DSPSIZ(24 80 *DS3)
+     A* *===============================================================
      A          R RECORD
      A                                      CF03(03)
      A                                      CF05(05)
@@ -8,20 +12,21 @@
      A                                  2 71TIME
      A                                  1 71DATE
      A                                      EDTCDE(Y)
-     A* *====================  TITRE  ===================================
+     A* *====================  TITRE  ==================================
      A                                  2 32'Assistant IA'
-     A                                       COLOR(WHT)
+     A                                      COLOR(WHT)
      A* *====================  MAIN  ===================================
      A                                  6  2'Indiquez votre question, puis appu-
      A                                      yez sur ENTREE.'
      A                                      COLOR(BLU)
-     A            ASKD         250A  B  8  2COLOR(WHT)
+     A            ASKD         150A  B  7  2COLOR(WHT)
      A                                      CHECK(LC)
-     A                                 13  2'Réponse de votre assistant'
+     A                                 10  2'Réponse de votre assistant'
      A                                      COLOR(BLU)
-     A            ANSWERD      250O  O 15  2COLOR(WHT)
+     A            ANSWERD      350O  O 11  2COLOR(WHT)
      A* *====================  BOTTOM  =================================
-     A                                 21  2'F3=Exit'
+     A                                 24  2'F3=Exit'
      A                                      COLOR(BLU)
-     A                                 21 12'F5=Rafraichir'
+     A                                 24 12'F5=Rafraichir'
      A                                      COLOR(BLU)
+     A* *====================  FIN  =================================

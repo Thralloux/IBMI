@@ -39,12 +39,15 @@ Dow Not *In03;
   // Récupération
   Exec Sql
   Select ANSWER1 into :reponse From ANSWER ;
-
   reponse = %xlate(X'25': ' ': reponse);
+  Answerd =  reponse;
 
   // Affichage
-  Answerd =  reponse;
   Exfmt RECORD;
+
+  if *In03;
+    Leave;
+  Endif;
 
   //Si question;
   If ASKD <> '';
