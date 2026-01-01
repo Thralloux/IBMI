@@ -27,23 +27,18 @@ DCL-DS FETCH1;
   ECOL2 char(60);
 END-DS;
 
-//Ecran message erreur
-DCL-DS *N PSDS;
-  $PGM     *PROC;
-END-DS;
-
 //**********************************************************************//
 // Déclaration des variables                                            //
 //**********************************************************************//
-DCL-S i         ZONED(5:0) INZ(0);
+DCL-S i         zoned(5:0);
 DCL-S Sqlstm    varchar(100);
 DCL-s SflPag    zoned(10);
 //Date
 dcl-s DateRecup timestamp;
 dcl-s DateModif date;
 dcl-s DateUtil  char(10);
-DCL-S posSpace INT(5) INZ(0);
- DCL-S pos INT(5);
+DCL-S posSpace  int(5);
+DCL-S pos       int(5);
 //**********************************************************************//
 // Traitement pricipale                                                 //
 //**********************************************************************//
@@ -57,15 +52,13 @@ Dow Not EXIT;
  datej();
  // Affichage ecran
  Exfmt format2;
- clean();
 //Rafraichir donnée
   if RAFRAICHIR = *on;
     callp SCRAPPING();
     iter;
   endif;
-// Option et gestion erreur
-  monitor;
-    select;
+// Option 
+   select;
       when Emeteo = '1';
         SqlStm = 'select * from meteo';
         ECHOIX = 'Température du ' + DateUtil;
@@ -82,18 +75,7 @@ Dow Not EXIT;
         ECHOIX = 'Sport du ' + DateUtil;
         ETITRE2 = 'L equipe';
         cmd='STRPCCMD PCCMD(''start https://www.lequipe.fr/'') PAUSE(*NO) ';
-      OTHER;
-        //pas de sous fichier donc inutile
-        msgId  = 'UTI0001';
-        ERROPT();
-       iter;
     ENDSL;
-  ON-ERROR *ALL;
-    msgId  = 'UTI0014';
-    ERROPT();
-   iter;
-  ENDMON;
-
 // Exécuter uniquement si une requéte SQL est définie
   If %Len(SqlStm) > 0;
     cmdLen = %len(cmd);
@@ -105,7 +87,6 @@ EndDo;
 
 *inlr = *on;
 
-
 //**********************************************************************//
 // Procedure initialisation programme                                   //
 //**********************************************************************//
@@ -115,6 +96,7 @@ DCL-PROC init;
   Esport = '';
   SqlStm = '';
   RAFRAICHIR = *off;
+  EXEC SQL CLOSE C1;
 END-PROC ;
 
 //**********************************************************************//
@@ -126,12 +108,9 @@ END-PROC ;
     select LAST_USED_TIMESTAMP
     into :DateRecup
     from table(QSYS2.IFS_OBJECT_STATISTICS('/home/NBOUVIER/infoclimat_data.csv'));
-  gstErrSQL();
-// --- Conversion  ---
+ // --- Conversion  --- Formatage --- Affichage 
   DateModif = %date(DateRecup);
-// --- Formatage  ---
   DateUtil = %char(DateModif: *EUR);
-// --- Affichage  ---
   ETITRE1 = 'Information du '+ DateUtil ;
 END-PROC ;
 
@@ -151,8 +130,6 @@ DCL-PROC ClearSF;
   SFLCLEAR  = *ON;
   SFLDSP    = *ON;
   SFLEND    = *OFF;
-
-  EXEC SQL CLOSE C1;
 END-PROC ;
 
 //**********************************************************************//
@@ -160,25 +137,20 @@ END-PROC ;
 //**********************************************************************//
 DCL-PROC BuildSF;
   EXEC SQL PREPARE STATE FROM :SqlStm;
-  gstErrSQL();
   EXEC SQL DECLARE C1 CURSOR FOR STATE;
-  gstErrSQL();
   EXEC SQL OPEN C1;
-  gstErrSQL();
-
+ 
   Sflpag=24;
 
   FOR i=1 to Sflpag;
     EXEC SQL Fetch C1 into :fetch1;
-    gstErrSQL();
   // Gestion sortit--------------------//
     IF sqlcode = 100;
       EXEC SQL CLOSE C1;
-      gstErrSQL();
       SFLEND = *on;
       leave;
     ENDIF;
-  // --------------------------------------//
+  // Amélioration affichage------------//
     FOR pos = 60 DOWNTO 1;
       IF %subst(ECOL:pos:1) = ' ';
         posSpace = pos;
@@ -186,8 +158,8 @@ DCL-PROC BuildSF;
       ENDIF;
     ENDFOR;
     ECOL1 = %subst(ECOL:1:posSpace);
-    ECOL2 = %triml(%subst(ECOL:posSpace+1));   
-    rang += 1;      
+    ECOL2 = %triml(%subst(ECOL:posSpace+1));
+    rang += 1;
     write SFL01;
   ENDFOR;
 
@@ -208,40 +180,5 @@ DCL-PROC DspSF;
   EndDo;
 END-PROC ;
 
-//**********************************************************************//
-// Procedure message erreur                                             //
-//**********************************************************************//
-DCL-PROC ERROPT;
-  //pas de sous fichier donc inutile
-  callp QMHSNDPM( msgId : 'MESSAGE   *LIBL     ' : msgData :
-  msgDataLen :  '*DIAG': $PGM  : 0 : msgKey : errorCode );
 
-   WRITE MSGCTL;
-END-PROC ;
-
-//**********************************************************************//
-// Procedure nettoyage message erreur                                   //
-//**********************************************************************//
-DCL-PROC CLEAN;
-  callp QMHRMVPM ($PGM: *zero: *blanks: '*ALL': errorDS);
-END-PROC ;
-
-//**********************************************************************//
-// Procedure erreur sql                                                 //
-//**********************************************************************//
-DCL-PROC gstErrSQL;
-  if sqlCode < 0;
-    msgData = 'Erreur SQL ' + %char(sqlcode);
-    exec sql get diagnostics condition 1 :msgData = MESSAGE_TEXT;
-
-    if %len(msgData) > 0;
-      msgData = msgData + ' : ' + %trim(msgData);
-    endif;
-
-    msgDataLen =  %len(msgData);
-
-    callp QMHSNDPM( msgId : 'QCPFMSG   QSYS      ' : msgData:
-     msgDataLen : '*ESCAPE': $PGM  : 1 : msgKey : errorCode );
-  endif;
-END-PROC ;
 
