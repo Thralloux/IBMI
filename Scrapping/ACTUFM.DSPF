@@ -3,9 +3,9 @@
      A* *===============================================================
      A                                      INDARA
      A          R SFL01                     SFL
-     A            ECOL         150A  H      
+     A            ECOL         150A  H
      A            ECOL1         60A  O  6  3
-     A            ECOL2         60A  O  7 11 
+     A            ECOL2         60A  O  7 11
      A* *====================  CONTROLE  =====================================
      A          R CTL01                     SFLCTL(SFL01)
      A                                      CF03(03)

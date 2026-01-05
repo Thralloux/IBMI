@@ -1,26 +1,26 @@
-PGM
+             PGM
+             MONMSG CPF2845
 
     /* Exécuter le script Python en utilisant l'environnement virtuel */
-    QSH CMD('/home/NICOLAS/my_env/bin/python3 /home/NICOLAS/python.py > /dev/null 2>&1')
+             QSH        CMD('/home/NBOUVIER/my_env/bin/python3 /home/NBOUVIER/python.py > /dev/null +
+                          2>&1')
 
     /* Copier les données dans les fichiers physiques IBM i */
-    CPYFRMIMPF FROMSTMF('/home/NICOLAS/infoclimat_data.csv') TOFILE(BOUVIER/METEO) +
-                MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+             CPYFRMIMPF FROMSTMF('/home/NBOUVIER/infoclimat_data.csv') TOFILE(NBOUVIER/METEO) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
 
-    CPYFRMIMPF FROMSTMF('/home/NICOLAS/lemonde_data.csv') TOFILE(BOUVIER/ACTU) +
-                MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+             CPYFRMIMPF FROMSTMF('/home/NBOUVIER/lemonde_data.csv') TOFILE(NBOUVIER/ACTU) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
 
-    CPYFRMIMPF FROMSTMF('/home/NICOLAS/lequipe_data.csv') TOFILE(BOUVIER/SPORT) +
-                MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+             CPYFRMIMPF FROMSTMF('/home/NBOUVIER/lequipe_data.csv') TOFILE(NBOUVIER/SPORT) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
 
-    /* Démarrer l’intégrateur */
-    STRPCO
+    /* Démarrer l'intégrateur */
+             STRPCO
 
     /* Intégrateur déja actif */
-     MONMSG IWS0000 EXEC(DO) 
-        RCVMSG MSGTYPE(*EXCP)
-    ENDDO
-                       
-    CALL PGM(*LIBL/ACTU)
+             MONMSG     IWS0000 EXEC(DO)
+                RCVMSG     MSGTYPE(*EXCP)
+             ENDDO
 
-ENDPGM
+            ENDPGM
