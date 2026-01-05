@@ -1,0 +1,152 @@
+     FRPGE    CF  E                    WORKSTN
+     F                                        RANG  KSFILE FE
+     FPAYS    UF  E           K        DISK
+     C* ---------------------------------------------------
+     C* Traitement principal
+     C* ---------------------------------------------------
+     C                     EXSR INIP
+     C                     EXSR INIT
+     C                     EXSR RMP
+     C           *IN03     DOUEQ*ON
+     C                     WRITEFB
+     C                     EXFMTFC
+     C                     READCFE                       60
+     C* Edition
+     C           OPT       IFEQ '2'
+     C                     EXSR EDIT
+     C                     ENDIF
+     C* Suppression
+     C           OPT       IFEQ '4'
+     C                     EXSR SUP
+     C                     ENDIF
+     C* Affichage
+     C           OPT       IFEQ '5'
+     C                     EXSR AFF
+     C                     ENDIF
+     C                     EXSR INIT
+     C                     EXSR RMP
+     C                     READCFE                       60
+     C                     ENDDO
+     C                     SETON                         LR
+     C* ---------------------------------------------------
+     C* Initialisation PGM
+     C* ---------------------------------------------------
+     C           INIP      BEGSR
+     C                     SETOF                       9110
+     C                     ENDSR
+     C* ---------------------------------------------------
+     C* Initialisation du sous-fichier
+     C* ---------------------------------------------------
+     C           INIT      BEGSR
+     C                     CLEARTLT
+     C                     Z-ADD0         RANG
+     C                     MOVEL' '       OPT
+     C* Effacement du sous-fichier
+     C                     SETON                         31
+     C* Ecriture du sous-fichier
+     C                     WRITEFC
+     C* Sous-fichier pret à etre afficher
+     C                     SETOF                     313290
+     C                     ENDSR
+     C* ---------------------------------------------------
+     C* Chargement du sous-fichier
+     C* ---------------------------------------------------
+     C           RMP       BEGSR
+     C           *LOVAL    SETLLPAYS
+     C                     READ PAYS                     99
+     C* Boucle de remplissage du sous-fichier
+     C           *IN99     DOUEQ*ON
+     C                     ADD  1         RANG
+     C                     MOVELNOMPAY    ZON1
+     C                     MOVELCAPITA    ZON2
+     C                     Z-ADDPOPULA    ZON3
+     C                     Z-ADDSURFAC    ZON4
+     C                     WRITEFE
+     C                     READ PAYS                     99
+     C* Gestion fin de lecture fichier
+     C                     ENDDO
+     C                     SETON                         90
+     C                     Z-ADD1         RANG
+     C                     ENDSR
+     C* ------------------------------------------------------------
+     C* DETAIL
+     C* ------------------------------------------------------------
+     C           AFF       BEGSR
+     C                     MOVEL'DETAIL'  TLT
+     C           ZON1      CHAINPAYS                 50
+     C           *IN12     DOUEQ*ON
+     C                     MOVELNOMPAY    ENOMPA
+     C                     MOVELCAPITA    ECAPIT
+     C                     Z-ADDPOPULA    EPOPUL
+     C                     Z-ADDSURFAC    ESURFA
+     C                     MOVEL'1'       *IN91
+     C                     WRITEFD
+     C                     EXFMTFD
+     C                     ENDDO
+     C                     ENDSR
+     C* ------------------------------------------------------------
+     C* SUPPRESSION
+     C* ------------------------------------------------------------
+     C           SUP       BEGSR
+     C           ZON1      CHAINPAYS                 51
+     C           *IN51     IFEQ *ON
+     C                     RETRN
+     C                     ENDIF
+     C                     DELETPAYSF
+     C                     ENDSR
+     C* ------------------------------------------------------------
+     C* MODIFICATION
+     C* ------------------------------------------------------------
+     C           EDIT      BEGSR
+     C* Titre
+     C           'MODIFI'  CAT  'CATION'  TLT
+     C* Remplissage champs et affichage
+     C           ZON1      CHAINPAYS                 52
+     C           *IN12     DOUEQ*ON
+     C                     MOVEL'0'       *IN03
+     C                     MOVEL'0'       *IN71
+     C                     MOVELNOMPAY    ENOMPA
+     C                     MOVELCAPITA    ECAPIT
+     C                     Z-ADDPOPULA    EPOPUL
+     C                     Z-ADDSURFAC    ESURFA
+     C                     MOVEL'0'       *IN91
+     C                     WRITEFD
+     C                     EXFMTFD
+     C* Comparaison des valeurs
+     C           NOMPAY    COMP ENOMPA                   70
+     C           *IN70     IFEQ *OFF
+     C                     SETON                         71
+     C                     ENDIF
+     C           CAPITA    COMP ECAPIT                   70
+     C           *IN70     IFEQ *OFF
+     C                     SETON                         71
+     C                     ENDIF
+     C           POPULA    COMP EPOPUL                   70
+     C           *IN70     IFEQ *OFF
+     C                     SETON                         71
+     C                     ENDIF
+     C           SURFAC    COMP ESURFA                   70
+     C           *IN70     IFEQ *OFF
+     C                     SETON                         71
+     C                     ENDIF
+     C* Fenetre confirmation
+     C           *IN71     IFEQ *ON
+     C                     EXFMTFV
+     C           *IN03     DOUEQ*ON
+     C           *IN03     IFEQ *ON
+     C                     LEAVE
+     C                     ENDIF
+     C* Annulation de la modification
+     C           *IN10     IFEQ *ON
+     C* Validation de la modification
+     C                     MOVELENOMPA    NOMPAY
+     C                     MOVELECAPIT    CAPITA
+     C                     Z-ADDEPOPUL    POPULA
+     C                     Z-ADDESURFA    SURFAC
+     C                     UPDATPAYSF
+     C                     LEAVE
+     C                     ENDIF
+     C                     ENDDO
+     C                     ENDIF
+     C                     ENDDO
+     C                     ENDSR
