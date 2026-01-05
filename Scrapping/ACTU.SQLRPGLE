@@ -47,17 +47,16 @@ EXEC SQL
   DATFMT = *eur;
 
 Dow Not EXIT;
-// initialisation, Date du jour
+// initialisation, Date du jour, Affichage ecran
  init();
  datej();
- // Affichage ecran
  Exfmt format2;
 //Rafraichir donnée
   if RAFRAICHIR = *on;
     callp SCRAPPING();
     iter;
   endif;
-// Option 
+// Option
    select;
       when Emeteo = '1';
         SqlStm = 'select * from meteo';
@@ -103,12 +102,11 @@ END-PROC ;
 // Procedure date du jour                                               //
 //**********************************************************************//
  DCL-PROC datej;
- // --- Recup date ---
+ // --- Recup date --- Conversion  --- Formatage --- Affichage
    exec sql
     select LAST_USED_TIMESTAMP
     into :DateRecup
     from table(QSYS2.IFS_OBJECT_STATISTICS('/home/NBOUVIER/infoclimat_data.csv'));
- // --- Conversion  --- Formatage --- Affichage 
   DateModif = %date(DateRecup);
   DateUtil = %char(DateModif: *EUR);
   ETITRE1 = 'Information du '+ DateUtil ;
@@ -139,7 +137,7 @@ DCL-PROC BuildSF;
   EXEC SQL PREPARE STATE FROM :SqlStm;
   EXEC SQL DECLARE C1 CURSOR FOR STATE;
   EXEC SQL OPEN C1;
- 
+
   Sflpag=24;
 
   FOR i=1 to Sflpag;
