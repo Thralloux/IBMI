@@ -29,7 +29,6 @@ CREATE TABLE NBOUVIER.ANSWER (
 )RCDFMT ANSWERF ;
 
 ```
-
 4. **Se connecter via QSH** et effectuer les commandes suivantes pour créer un environnement virtuel et installer les bibliothèques nécessaires :  
 ```sh
 PATH=/QOpenSys/pkgs/bin:$PATH
