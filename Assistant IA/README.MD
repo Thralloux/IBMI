@@ -21,9 +21,16 @@ Il simule un type de ChatGPT adapté à l’AS400 et permet de réaliser de l'an
 INSERT INTO nbouvier.ask (FLD001)
 SELECT LINE
 FROM TABLE(QSYS2.IFS_READ('/home/NBOUVIER/python2.py'));
+
+3. Copier le script Python dans la table AS400 :
+```sql
+CREATE TABLE NBOUVIER.ANSWER (
+    ANSWER1 VARCHAR(800)
+)RCDFMT ANSWERF ;
+
 ```
 
-3. **Se connecter via QSH** et effectuer les commandes suivantes pour créer un environnement virtuel et installer les bibliothèques nécessaires :  
+4. **Se connecter via QSH** et effectuer les commandes suivantes pour créer un environnement virtuel et installer les bibliothèques nécessaires :  
 ```sh
 PATH=/QOpenSys/pkgs/bin:$PATH
 python3 --version

@@ -14,7 +14,7 @@ DCL-F ANSWER;                //Table Réponse
 //**********************************************************************//
 // Déclaration des variables                                            //
 //**********************************************************************//
-DCL-S reponse         varchar(250);
+DCL-S reponse         varchar(800);
 DCL-S requet          varchar(100);
 DCL-S FLD001          char(150);
 
