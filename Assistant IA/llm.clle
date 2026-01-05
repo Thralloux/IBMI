@@ -1,7 +1,7 @@
 PGM
 
   /* Exécuter le script Python en utilisant l'environnement virtuel */
-  QSH CMD('export HF_TOKEN="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"; +
+  QSH CMD('export HF_TOKEN="token"; +
            /home/NBOUVIER/my_env/bin/python3 /home/NBOUVIER/python2.py > /dev/null 2>&1')
 
   /* Copier le fichier CSV généré dans la table */
