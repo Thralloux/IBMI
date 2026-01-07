@@ -49,7 +49,4 @@ voir https://www.linkedin.com/pulse/%C3%A9vitez-les-erreurs-sqlrpgle-dues-aux-di
 
 ## Visuelle
 
-<img width="1195" height="807" alt="image" src="https://github.com/user-attachments/assets/912ff200-b565-4c80-b4f2-febe60ac6afc" />
-<img width="1282" height="891" alt="image" src="https://github.com/user-attachments/assets/e9fc6ade-b643-40c2-b723-0146ac1f82d0" />
-<img width="1155" height="819" alt="image" src="https://github.com/user-attachments/assets/ea4d1509-4594-43ea-9be6-b648f9ab4635" />
-<img width="1106" height="822" alt="image" src="https://github.com/user-attachments/assets/ed956481-549c-43f6-8d9d-11a8a01575d4" />
+![Capture écran AS400](docs/capture-ecran-2026-01-07-101824.png)
