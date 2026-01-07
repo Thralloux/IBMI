@@ -50,3 +50,5 @@ voir https://www.linkedin.com/pulse/%C3%A9vitez-les-erreurs-sqlrpgle-dues-aux-di
 ## Visuelle
 
 ![Capture écran AS400](image/principale.png)
+![Capture écran AS400](image/actu.png)
+![Capture écran AS400](image/tv.png)
