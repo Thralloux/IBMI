@@ -39,11 +39,7 @@ CREATE TABLE Sport (ACTU_DATA CHAR(150));
 CREATE TABLE Tv    (ACTU_DATA CHAR(150));
 CREATE TABLE Radio (ACTU_DATA CHAR(150));
 CREATE TABLE Cine  (ACTU_DATA CHAR(150));
-```
-CREATE TABLE METEO (METEO_DATA CHAR(150));
-CREATE TABLE Actu (ACTU_DATA CHAR(150));
-CREATE TABLE Sport (ACTU_DATA CHAR(150));
-```
+
 4. **erreurs SQLRPGLE dues aux directives /INCLUDE**:
 Compiler avec RPGPPOPT (*LVL2)
 voir https://www.linkedin.com/pulse/%C3%A9vitez-les-erreurs-sqlrpgle-dues-aux-directives-include-aktepe-8ughf/
