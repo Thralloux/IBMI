@@ -21,6 +21,7 @@ Il simule un type de ChatGPT adapté à l’AS400 et permet de réaliser de l'an
 INSERT INTO nbouvier.ask (FLD001)
 SELECT LINE
 FROM TABLE(QSYS2.IFS_READ('/home/NBOUVIER/python2.py'));
+```
 
 3. Copier le script Python dans la table AS400 :
 ```sql
@@ -41,6 +42,6 @@ source my_env/bin/activate
 
 ## Visuelle
 
-<img width="1230" height="888" alt="Image" src="https://github.com/user-attachments/assets/ff6f3e09-c085-4360-8542-43b08b67c325" />
-<img width="1262" height="833" alt="Image" src="https://github.com/user-attachments/assets/07e21e5e-98bf-42ed-9e1d-a488a5e1e2db" />
-<img width="1280" height="928" alt="Image" src="https://github.com/user-attachments/assets/236077ba-5a46-40e8-ac89-b1feeb4d499a" />
+![Capture écran AS400](image/ia1.png)
+![Capture écran AS400](image/ia2.png)
+![Capture écran AS400](image/ia3.png)
