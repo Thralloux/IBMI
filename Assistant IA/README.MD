@@ -42,6 +42,6 @@ source my_env/bin/activate
 
 ## Visuelle
 
-![Capture écran AS400](image/ia1.png)
-![Capture écran AS400](image/ia2.png)
-![Capture écran AS400](image/ia3.png)
+![Capture écran AS400](image/Ia1.png)
+![Capture écran AS400](image/Ia2.png)
+![Capture écran AS400](image/Ia3.png)
