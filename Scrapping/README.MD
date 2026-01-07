@@ -49,4 +49,4 @@ voir https://www.linkedin.com/pulse/%C3%A9vitez-les-erreurs-sqlrpgle-dues-aux-di
 
 ## Visuelle
 
-![Capture écran AS400](image/Capture d’écran 2026-01-07 101824.png)
+![Capture écran AS400](image/principale.png)
