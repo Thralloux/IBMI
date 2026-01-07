@@ -1,4 +1,3 @@
-
         DCL-DS INDICATEUR ;
           EXIT       ind pos(03);
           RAFRAICHIR ind pos(05);
@@ -8,4 +7,5 @@
           SFLCLEAR   ind pos(31);
           SFLDSP     ind pos(32);
           SFLEND     ind pos(90);
+          DEBLOCAGE  ind pos(91);
         END-DS;
