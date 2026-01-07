@@ -47,11 +47,11 @@ EXEC SQL
   DATFMT = *eur;
 
 Dow Not EXIT;
-// initialisation, Date du jour, Affichage ecran
+// Initialisation, Date du jour, Affichage ecran
  init();
  datej();
  Exfmt format2;
-//Rafraichir donnée
+// Rafraichir donnée 
   if RAFRAICHIR = *on;
     callp SCRAPPING();
     iter;
@@ -74,6 +74,23 @@ Dow Not EXIT;
         ECHOIX = 'Sport du ' + DateUtil;
         ETITRE2 = 'L equipe';
         cmd='STRPCCMD PCCMD(''start https://www.lequipe.fr/'') PAUSE(*NO) ';
+      when ETV = '1';
+        SqlStm = 'select * from tv';
+        ECHOIX = 'Programme TV du ' + DateUtil;
+        ETITRE2 = 'Télérama';
+        cmd='STRPCCMD PCCMD(''start https://television.telerama.fr/'') PAUSE(*NO) ';
+      when ERADIO = '1';
+        SqlStm = 'select * from radio';
+        ECHOIX = 'Programme radio du ' + DateUtil;
+        ETITRE2 = 'France Inter';
+        cmd='STRPCCMD PCCMD(''start https://www.radiofrance.fr/franceinter/grille-programmes/'+
+        ''') PAUSE(*NO) ';
+      when ECINE = '1';
+        SqlStm = 'select * from cine';
+        ECHOIX = 'Programme cinéma du ' + DateUtil;
+        ETITRE2 = 'Megarama';
+        cmd='STRPCCMD PCCMD(''start https://montpellier.megarama.fr/FR/43/'+
+        ''') PAUSE(*NO) ';
     ENDSL;
 // Exécuter uniquement si une requéte SQL est définie
   If %Len(SqlStm) > 0;
@@ -93,6 +110,9 @@ DCL-PROC init;
   Emeteo = '';
   EACTU = '';
   Esport = '';
+  ERADIO = '';
+  ETV = '';
+  ECINE = '';
   SqlStm = '';
   RAFRAICHIR = *off;
   EXEC SQL CLOSE C1;
@@ -137,8 +157,8 @@ DCL-PROC BuildSF;
   EXEC SQL PREPARE STATE FROM :SqlStm;
   EXEC SQL DECLARE C1 CURSOR FOR STATE;
   EXEC SQL OPEN C1;
-
-  Sflpag=24;
+  // Nombre d'enregistrement
+  Sflpag=80;
 
   FOR i=1 to Sflpag;
     EXEC SQL Fetch C1 into :fetch1;
@@ -157,26 +177,31 @@ DCL-PROC BuildSF;
     ENDFOR;
     ECOL1 = %subst(ECOL:1:posSpace);
     ECOL2 = %triml(%subst(ECOL:posSpace+1));
+    // Ecriture sous-fichier ------------//
     rang += 1;
     write SFL01;
   ENDFOR;
-
 END-PROC;
 //**********************************************************************//
 // Procedure Affichage                                                  //
 //**********************************************************************//
 DCL-PROC DspSF;
   DoU RETOUR;
-    RANG = 1;
-    Write bas01;
+    // Positionnement rang ---------//
+    if ERADIO = '1';
+      exec sql
+      SELECT RRN(nbouvier.radio) into :rang
+      FROM nbouvier.radio
+      WHERE actu_data LIKE 'DIRECT%';
+    else;
+       RANG = 1;
+    endif;
+   Write bas01;
     Exfmt ctl01;
-    //Accée au site
+    // Accée au site -------------//
     if INFO = *on;
       callp QCMDEXC(cmd: cmdLen);
     endif;
     Readc SFL01;
   EndDo;
 END-PROC ;
-
-
-
