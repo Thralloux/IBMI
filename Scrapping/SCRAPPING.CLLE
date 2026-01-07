@@ -15,6 +15,14 @@
              CPYFRMIMPF FROMSTMF('/home/NBOUVIER/lequipe_data.csv') TOFILE(NBOUVIER/SPORT) +
                           MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
 
+             CPYFRMIMPF FROMSTMF('/home/NBOUVIER/telerama_data.csv') TOFILE(NBOUVIER/TV) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+
+            CPYFRMIMPF FROMSTMF('/home/NBOUVIER/radio_data.csv') TOFILE(NBOUVIER/RADIO) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
+
+            CPYFRMIMPF FROMSTMF('/home/NBOUVIER/cinema_data.csv') TOFILE(NBOUVIER/CINE) +
+                          MBROPT(*REPLACE) RCDDLM(*CRLF) STRDLM(*NONE) FLDDLM(*TAB)
     /* Démarrer l'intégrateur */
              STRPCO
 
